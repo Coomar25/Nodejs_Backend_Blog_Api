@@ -6,7 +6,10 @@ const createConnection = () => {
     user: "root",
     password: "",
     database: "blogsite",
-    port:3307
+    port:3307,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
   });
 };
 

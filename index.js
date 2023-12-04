@@ -39,6 +39,10 @@ app.use("/", userRouter);
 app.use('/auth', authRouter);
 
 
+// Ejs 
+app.set('view engine', 'ejs');
+app.use('/public', express.static('public'));
+
 
 
 

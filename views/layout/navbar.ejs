@@ -1,116 +1,71 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Responsiive Admin Dashboard | CodingLab</title>
-    <link rel="stylesheet" href="/public/style.css" />
-    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-  <body>
-
-
-
-
-    <div class="sidebar">
-      <div class="logo-details">
-        <i class="bx bxl-c-plus-plus"></i>
-        <span class="logo_name">CodingLab</span>
+   <!-- BEGIN: Sidebar -->
+   <div class="sidebar-wrapper group w-0 hidden xl:w-[248px] xl:block">
+    <div id="bodyOverlay" class="w-screen h-screen fixed top-0 bg-slate-900 bg-opacity-50 backdrop-blur-sm z-10 hidden"></div>
+    <div class="logo-segment">
+      <a class="flex items-center" href="/">
+        <img src="../../public/assets/images/logo/logo-c.svg" class="black_logo" alt="logo">
+        <img src="../../public/assets/images/logo/logo-c-white.svg" class="white_logo" alt="logo">
+        <span class="ltr:ml-3 rtl:mr-3 text-xl font-Inter font-bold text-slate-900 dark:text-white">DashCode</span>
+      </a>
+      <!-- Sidebar Type Button -->
+      <div id="sidebar_type" class="cursor-pointer text-slate-900 dark:text-white text-lg">
+        <iconify-icon class="sidebarDotIcon extend-icon text-slate-900 dark:text-slate-200" icon="fa-regular:dot-circle"></iconify-icon>
+        <iconify-icon class="sidebarDotIcon collapsed-icon text-slate-900 dark:text-slate-200" icon="material-symbols:circle-outline"></iconify-icon>
       </div>
-      <ul class="nav-links">
-        <li>
-          <a href="/admin" class="active">
-            <i class="bx bx-grid-alt"></i>
-            <span class="links_name">Dashboard</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="/admin/add">
-            <i class="bx bx-box"></i>
-            <span class="links_name">Add</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="/admin/list">
-            <i class="bx bx-list-ul"></i>
-            <span class="links_name">list</span>
-          </a>
-        </li>
-
-
-        <!-- <li>
-          <a href="#">
-            <i class="bx bx-pie-chart-alt-2"></i>
-            <span class="links_name">Analytics</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-coin-stack"></i>
-            <span class="links_name">Stock</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-book-alt"></i>
-            <span class="links_name">Total order</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-user"></i>
-            <span class="links_name">Team</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-message"></i>
-            <span class="links_name">Messages</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-heart"></i>
-            <span class="links_name">Favrorites</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-cog"></i>
-            <span class="links_name">Setting</span>
-          </a>
-        </li> -->
-
-
-
-        <li class="log_out">
-          <a href="#">
-            <i class="bx bx-log-out"></i>
-            <span class="links_name">Log out</span>
-          </a>
-        </li>
-      </ul>
+      <button class="sidebarCloseIcon text-2xl inline-block md:hidden">
+        <iconify-icon class="text-slate-900 dark:text-slate-200" icon="clarity:window-close-line"></iconify-icon>
+      </button>
     </div>
-  
-
-   
-   
-   
-   <script>
-      let sidebar = document.querySelector(".sidebar");
-      let sidebarBtn = document.querySelector(".sidebarBtn");
-      sidebarBtn.onclick = function () {
-        sidebar.classList.toggle("active");
-        if (sidebar.classList.contains("active")) {
-          sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-      };
-    </script>
-    <script src="/public/script.js"></script>
-  </body>
-</html>
+    <div id="nav_shadow" class="nav_shadow h-[60px] absolute top-[80px] nav-shadow z-[1] w-full transition-all duration-200 pointer-events-none
+    opacity-0"></div>
 
 
 
+    <div class="sidebar-menus bg-white dark:bg-slate-800 py-2 px-4 h-[calc(100%-80px)] z-50" id="sidebar_menus">
+
+
+      <ul class="sidebar-menu">
+        
+        <!-- Apps Area -->
+        <li>
+          <a href="/" class="navItem">
+            <span class="flex items-center">
+          <iconify-icon class=" nav-icon" icon="material-symbols:dashboard"></iconify-icon>
+          <span>Dashboard</span>
+            </span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/" class="navItem">
+            <span class="flex items-center">
+          <iconify-icon class=" nav-icon" icon="material-symbols:dashboard"></iconify-icon>
+          <span>Dashboard</span>
+            </span>
+          </a>
+        </li>
+
+       
+       
+        <li class="">
+          <a href="javascript:void(0)" class="navItem">
+            <span class="flex items-center">
+          <iconify-icon class=" nav-icon" icon="heroicons-outline:document"></iconify-icon>
+          <span>Projects</span>
+            </span>
+            <iconify-icon class="icon-arrow" icon="heroicons-outline:chevron-right"></iconify-icon>
+          </a>
+          <ul class="sidebar-submenu">
+            <li>
+              <a href="project.html">Projects</a>
+            </li>
+            <li>
+              <a href="project-details.html">Project Details</a>
+            </li>
+          </ul>
+        </li>
+
+
+    </div>
+  </div>
+  <!-- End: Sidebar -->

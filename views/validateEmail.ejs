@@ -9,7 +9,42 @@
     <p>Hello <%= username %>,</p>
     <p>Welcome to our platform!</p>
     <p>Please click the button below to validate your email:</p>
-    <a href="<%= validateEmailLink %>" target="_blank" style="margin-top: 2rem; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Validate Email</a>
+    <form action="http://localhost:5000/emailverification/kumarbhetwal252gmail.com" action="post">
+        <button type="submit" target="_blank" style="margin-top: 2rem; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Validate Email</button>
+        <!-- <a id="validateEmailBtn" href="<%= validateEmailLink %>" target="_blank" style="margin-top: 2rem; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Validate Email</a> -->
+    </form>
+
+
+
+    <!-- <script>
+      const validateEmailBtn = document.getElementById('validateEmailBtn');
+
+      validateEmailBtn.addEventListener('click', async () => {
+          try {
+              const response = await fetch('http://localhost:5000/emailverification', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                      email: email,
+                  })
+              });
+
+              if (response.ok) {
+                  console.log('Email verification initiated');
+              } else {
+                  console.error('Failed to initiate email verification');
+              }
+          } catch (error) {
+              // Handle fetch error
+              console.error('Fetch error:', error);
+          }
+      });
+  </script> -->
+
+
+  
   </body>
 </html>
 

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import bcryptjs from "bcryptjs";
 
 var userSchema = new mongoose.Schema({
     username: {
@@ -13,18 +13,18 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        match: /^[\w-\.]+@([\w-]+\.)+[\w-]$/,
       },
       password: {
         type: String,
         required: true,
         minlength: 8,
-        set(value) {
-          return bcryptjs.hash(value, 10);
-        },
       },
       image: {
         type: String,
+      },
+      verified: {
+        type: String,
+        default: 'notverified', // Set the default value here
       },
 });
 

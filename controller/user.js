@@ -1,75 +1,65 @@
-import User from "../models/userModel.js";
-import joi from "joi";
-import nodemailer from "nodemailer";
-import ejs from "ejs";
-import fs from "fs";
-import path from "path";
+import createuserValidateSchema from "../utils/createuserValidateSchema.js";
+import sendEmailForVerification from "../service/sendEmailForVerification.js";
+import User from "../models/userModel.js"
+import bcryptjs from "bcryptjs"
+
+
 
 export const createUser = async (req, res) => {
-  const schema = joi.object({
-    username: joi.string().required().min(3).max(20),
-    email: joi
-      .string()
-      .email()
-      .required()
-      .custom((value, helpers) => {
-        if (!value.includes("@gmail.com")) {
-          return helpers.message("Email domain must be gmail.com");
-        }
-        return value;
-      }),
-    password: joi.string().required().min(8),
-    confirmpassword: joi
-      .string()
-      .required()
-      .valid(joi.ref("password"))
-      .messages({ "any.only": "Passwords must match" }),
-    image: joi.string().optional(),
-  });
-
   try {
-    const { error, value } = schema.validate(req.body);
+    const { error, value } = createuserValidateSchema.validate(req.body);
     if (!error) {
-        console.log(value);
-        sendEmailForVerification(value.username, value.email);
+        // console.log(value);
+        const email = value.email;
+        const existinguser = await User.findOne({email: email});
+        if(existinguser){
+            return res.status(409).json({
+                message:"User already exists",
+                success: false,
+            });
+        }
 
+      const hashedPassword = await bcryptjs.hash(value.password, 10);
+      console.log(hashedPassword);
+      const usersInfo = new User({
+        username: value.username,
+        email: value.email,
+        password: hashedPassword, 
+        image: value.image,
+      }); 
+        // send mail before checking if the existing user exists or not
+        sendEmailForVerification(value.username, value.email);
+        const newUser = await User.create(usersInfo);
+        return res.status(201).json({
+            message: "Mail Has Been send successfully. Please Verified your account! ",
+            success:true,
+        });
+    }else{
+        // yo chai validation error message hoo hai
+        console.log(error.details[0].message);
     }
-    console.log(error.details[0].message);
-  } catch (error) {}
+  } catch (error) {
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.username === 1) {
+        // Duplicate key error for the username field
+        return res.status(400).json({
+            message: "User with this username already exists",
+            success: false,
+        });
+    } else {
+        return res.status(500).json({
+            message: "Error creating user",
+            error: error.message, // Optionally send the specific error message for debugging
+            success: false,
+        });
+    }
+  }
 };
 
 
+export const verifyUserThroughMail = async (req, res) => {
+    const email = req.params.email; 
+    console.log("Email clicked:", email);
+    res.send('Email verification link clicked');
+};
 
-const sendEmailForVerification = async (username, email) => {
-    const templatePath = "./views/validateEmail.ejs";
-    const templateContent = fs.readFileSync(templatePath, "utf8");
 
-    const renderedTemplate = await ejs.render(templateContent, {
-      username: username,
-      email: email,
-      validateEmailLink: "https://example.com/validate", // Replace with your link
-    });
-
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
-      auth: {
-        user: "kumarbhetwal26@gmail.com",
-        pass: process.env.GMAIL_APP_PASSWORD,
-      },
-    });
-
-    async function sendEmailValidation() {
-      const info = await transporter.sendMail({
-        from: "kumarbhetwal26@gmail.com",
-        to: "kumarbhetwal25@gmail.com",
-        subject: "Hello ✔", // Subject line
-        text: "Hello world?", // plain text body
-        html: renderedTemplate, // html body
-      });
-      console.log("Message sent: %s", info.messageId);
-    }
-    await sendEmailValidation();
-    sendEmailValidation().catch(console.error);
-}

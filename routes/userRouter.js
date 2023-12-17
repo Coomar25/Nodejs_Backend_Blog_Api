@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 
 
 router.post('/createuser', createUser);
-router.post('/emailverification/:email', verifyUserThroughMail);
+router.get('/emailverification/:id', verifyUserThroughMail);
 
 
 export { router as userRouter };

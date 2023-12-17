@@ -28,15 +28,17 @@ export const createUser = async (req, res) => {
         image: value.image,
       }); 
         // send mail before checking if the existing user exists or not
-        sendEmailForVerification(value.username, value.email);
         const newUser = await User.create(usersInfo);
+        const userUniqueId = newUser._id;
+        sendEmailForVerification(value.username, value.email, userUniqueId);
         return res.status(201).json({
             message: "Mail Has Been send successfully. Please Verified your account! ",
             success:true,
         });
     }else{
         // yo chai validation error message hoo hai
-        console.log(error.details[0].message);
+        console.log('Validation error message =', error.details[0].message);
+        return res.status(501).send(error.details[0].message);
     }
   } catch (error) {
     if (error.code === 11000 && error.keyPattern && error.keyPattern.username === 1) {
@@ -48,7 +50,7 @@ export const createUser = async (req, res) => {
     } else {
         return res.status(500).json({
             message: "Error creating user",
-            error: error.message, // Optionally send the specific error message for debugging
+            error: error.message,
             success: false,
         });
     }
@@ -57,9 +59,22 @@ export const createUser = async (req, res) => {
 
 
 export const verifyUserThroughMail = async (req, res) => {
-    const email = req.params.email; 
-    console.log("Email clicked:", email);
-    res.send('Email verification link clicked');
+  const id = req.params.id; 
+  console.log("id got :", id);
+  try {
+      const updatedUser = await User.findOneAndUpdate(
+          { _id: id },
+          { verified: 'verified' },
+          { new: true }
+      );
+      if (!updatedUser) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+      return res.send('Email verification link clicked. User verified successfully.');
+  } catch (error) {
+      console.error('Error verifying user:', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+  }
 };
 
 

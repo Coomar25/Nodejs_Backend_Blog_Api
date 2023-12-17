@@ -3,13 +3,13 @@ import ejs from "ejs";
 import fs from "fs";
 
 
-const sendEmailForVerification = async (username, email, appurl) => {
+const sendEmailForVerification = async (username, email, userUniqueId) => {
     const templatePath = "./views/validateEmail.ejs";
     const templateContent = fs.readFileSync(templatePath, "utf8");
 
     const renderedTemplate = await ejs.render(templateContent, {
       username: username,
-      email: email,
+      id: userUniqueId,
       app_url: process.env.APP_URL,
       validateEmailLink: process.env.USEREMAIL_VALIDATION, // Replace with your link
     });
@@ -27,7 +27,7 @@ const sendEmailForVerification = async (username, email, appurl) => {
     async function sendEmailValidation() {
       const info = await transporter.sendMail({
         from: "kumarbhetwal26@gmail.com",
-        to: "kumarbhetwal25@gmail.com",
+        to: email,
         subject: "Hello ✔", // Subject line
         text: "Hello world?", // plain text body
         html: renderedTemplate, // html body

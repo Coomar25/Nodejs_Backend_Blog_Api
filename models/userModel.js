@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import bcryptjs from "bcryptjs";
+import bcrypt from "bcrypt";
+
 
 var userSchema = new mongoose.Schema({
     username: {
@@ -27,6 +28,21 @@ var userSchema = new mongoose.Schema({
         default: 'notverified', // Set the default value here
       },
 });
+
+// Yo code chai password lai encrypt garna lai 
+userSchema.pre('save', async function(next){
+  if(!this.isModified("password")){
+      next();
+  }
+  const salt = await bcrypt.genSaltSync(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+// password match vaxa ki nai vanera check garna
+userSchema.methods.isPasswordMatched =  async function(enteredPassword){
+  return await bcrypt.compare(enteredPassword, this.password);
+}
+
 
 //Export the model
 export default mongoose.model('User', userSchema);

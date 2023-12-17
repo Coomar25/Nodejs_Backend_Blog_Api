@@ -4,6 +4,7 @@ import { loginUser } from "../controller/auth.js"
 import { logoutUser } from "../controller/auth.js";
 import { testTokenFunction } from "../controller/auth.js"
 import { authenticateToken } from '../middleware/authentication.js';
+// import {authMiddleware } from '../middleware/authentication.js'
 const router = express.Router();
 
 
@@ -19,7 +20,6 @@ router.post("/loginuser", loginUser);
 router.post("/logoutuser", logoutUser);
 
 router.get('/testtoken',authenticateToken, testTokenFunction);
-
 
 
 

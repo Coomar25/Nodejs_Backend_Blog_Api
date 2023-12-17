@@ -102,3 +102,4 @@ export const logoutUser = async (req, res) => {};
 export const testTokenFunction = async (req, res) => {
     res.send("THis page is accces after having authntication only");
 }
+

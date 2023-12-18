@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import User from './userModel.js'
 // Declare the Schema of the Mongo model
 const postSchema = new mongoose.Schema({
     title: {
@@ -14,7 +15,7 @@ const postSchema = new mongoose.Schema({
         required: true,
     },
     publicationDate: {
-        type: Date,
+        type: String,
         required: true,
     },
     tagsOrCategories: {
@@ -47,6 +48,10 @@ const postSchema = new mongoose.Schema({
         enum: ['published', 'draft', 'archived'],
         default: 'draft', 
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 // Export the model

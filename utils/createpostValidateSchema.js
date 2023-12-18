@@ -1,10 +1,11 @@
 import joi from 'joi';
 
 const createPostValidateSchema = joi.object({
-  title: joi.string().required(),
-  content: joi.string().required(),
+  user: joi.string().required(),
+  title: joi.string().trim().min(1).required(),
+  content: joi.string().trim().min(6).required(),
   author: joi.string().required(),
-  publicationDate: joi.date().iso().required(),
+  category: joi.string().required(),
   imagesOrMedia: joi.string().required(),
   status: joi.string().valid('published', 'draft', 'archived').required(),
 });

@@ -172,6 +172,37 @@ export const updateBlogPost = async (req, res) => {
       return res.status(500).send("Internal Server Error");
     }
   };
+
+
+  export const toggleUserLikes = async (req, res) => {
+    try{
+        const {postId, userId} = req.params;
+        console.log(postId, userId);
+        const existingPost = await Post.findById(postId);
+        if (!existingPost) {
+          return res.status(404).json({
+            warning: "Post not found",
+            success: false,
+          });
+        }
+
+        const userIndex = existingPost.likesOrReactions.indexOf(userId); //check gareko yaade user ko id chai likeorreaction array ma xa ki nai vnaera
+        if(userIndex === -1){
+            existingPost.likesOrReactions.push(userId);
+        }else{
+            existingPost.likesOrReactions.splice(userIndex, 1);
+        }
+
+        const updatePost = await existingPost.save();
+        console.log(updatePost);
+        return res.status(200).json(updatePost);
+    }catch(error){
+        console.error(error);
+    }
+  }
+
+
+
   
   
   

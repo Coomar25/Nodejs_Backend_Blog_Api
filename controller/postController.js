@@ -64,7 +64,7 @@ export const getPostWithUser = async (req, res) => {
     const post = await Post.findById(postId).populate(
       "user",
       "_id username email image"
-    );
+    ).populate("commentId");
     console.log(post);
     res.status(200).send({ post: post });
   } catch (error) {

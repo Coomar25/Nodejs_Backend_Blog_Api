@@ -1,6 +1,6 @@
 import joi from 'joi';
 
-const createPostValidateSchema = joi.object({
+export const createPostValidateSchema = joi.object({
   user: joi.string().required(),
   title: joi.string().trim().min(1).required(),
   content: joi.string().trim().min(6).required(),
@@ -8,6 +8,13 @@ const createPostValidateSchema = joi.object({
   category: joi.string().required(),
   imagesOrMedia: joi.string().required(),
   status: joi.string().valid('published', 'draft', 'archived').required(),
+
 });
 
-export default createPostValidateSchema;
+export const updatePostValidateSchema = joi.object({
+  title: joi.string().trim().min(1),
+  content: joi.string().trim().min(6),
+  category: joi.string(),
+  imagesOrMedia: joi.string(),
+  status: joi.string().valid('published', 'draft', 'archived'),
+})

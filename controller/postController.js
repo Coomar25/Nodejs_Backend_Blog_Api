@@ -1,5 +1,5 @@
 import Post from "../models/postModel.js";
-import createPostValidateSchema from "../utils/createpostValidateSchema.js";
+import {createPostValidateSchema, updatePostValidateSchema} from "../utils/createpostValidateSchema.js";
 
 const generateSlug = (title) => {
   let slug = title.toLowerCase().replace(/\s+/g, "-");
@@ -72,6 +72,111 @@ export const getPostWithUser = async (req, res) => {
     return null;
   }
 };
+
+export const getFeaturedPosts = async (req, res) => {
+    try {
+      const featuredPosts = await Post.find({ isFeatures: "featured" }).populate(
+        "user",
+        "_id username email image"
+      );
+      if(featuredPosts.length === 0){
+        return res.status(404).send({message: "No Features Post Yet"});
+      }
+      res.status(200).send({ posts: featuredPosts });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send("Internal Server Error");
+    }
+  };
+  
+
+
+
+export const updateBlogPost = async (req, res) => {
+    try {
+      const postId = req.params.postid;
+      console.log(postId);
+      const { error, value } = updatePostValidateSchema.validate(req.body);
+      
+      if (!error) {
+        const existingBlogPost = await Post.findById(postId);
+        if (!existingBlogPost) {
+          return res.status(404).json({
+            warning: "Post not found",
+            success: false,
+          });
+        }
+        const updatedSlug = generateSlug(value.title);
+        console.log(updatedSlug);
+        existingBlogPost.title = value.title || existingBlogPost.title;
+        existingBlogPost.content = value.content || existingBlogPost.content;
+        existingBlogPost.category = value.category || existingBlogPost.category;
+        existingBlogPost.imagesOrMedia = value.imagesOrMedia || existingBlogPost.imagesOrMedia;
+        existingBlogPost.status = value.status || existingBlogPost.status;
+        existingBlogPost.slug = updatedSlug || existingBlogPost.slug;
+        const updatedBlogPost = await existingBlogPost.save();
+        console.log(updatedBlogPost);
+        return res.status(200).send(updatedBlogPost);
+      } else {
+        return res.status(400).json({ error: error.details[0].message });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send("Internal Server Error");
+    }
+  };
+
+
+  export const deleteBlogPost = async (req, res) => {
+    try {
+      const postId = req.params.postid; 
+      const existingBlogPost = await Post.findOneAndDelete(postId);
+  
+      if (!existingBlogPost) {
+        return res.status(404).json({
+          warning: "Post not found",
+          success: false,
+        });
+      }
+  
+      return res.status(200).json({
+        success: true,
+        message: "Post deleted successfully",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send("Internal Server Error");
+    }
+  };
+
+
+  export const toggleFeatureStatus = async (req, res) => {
+    try {
+      const postId = req.params.postid;
+      const existingBlogPost = await Post.findById(postId);
+  
+      if (!existingBlogPost) {
+        return res.status(404).json({
+          warning: "Post not found",
+          success: false,
+        });
+      }
+  
+      // Toggle the isFeatures status
+      existingBlogPost.isFeatures = existingBlogPost.isFeatures === "featured" ? "notfeatured" : "featured";
+  
+      const updatedBlogPost = await existingBlogPost.save();
+      return res.status(200).json(updatedBlogPost);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send("Internal Server Error");
+    }
+  };
+  
+  
+  
+
+
 
 
 

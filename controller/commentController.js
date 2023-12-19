@@ -14,15 +14,20 @@ export const addCommentToPost = async ( req, res) => {
             success: false,
           });
         }
-    
-        const comments= new Comment({
-            comment: comment,
-            postId:postId,
-            userId:userId
-        });
+
+        let existingComment = await Comment.findOneAndUpdate(
+            {postId: postId, userId:userId},
+            {$push: {comment: comment}},
+            {new:true}
+        )
+        if(!existingComment){
+            const comments= new Comment({
+                comment: comment,
+                postId:postId,
+                userId:userId
+            });
         const createComment = await Comment.create(comments);
-        //console.log(createComment._id.toString());  // Convert ObjectId to string
-        // now adding that comment id to dedicated post 
+                // now adding that comment id to dedicated post 
         const existingBlogPost = await Post.findById(postId);
         if(!existingBlogPost){
             return res.status(404).json({
@@ -30,11 +35,23 @@ export const addCommentToPost = async ( req, res) => {
                 success:false
             });
         }
-        const commentid = createComment._id.toString()
+        const commentid = createComment._id.toString();
+        
         existingBlogPost.commentId = commentid;
         const updatePostWithCommentId = await existingBlogPost.save();
         console.log(updatePostWithCommentId);
         return res.status(200).send({comment: comments});
+        }
+
+
+        return res.status(200).json({
+            message: "comment has been added",
+            success: true
+        });
+
+    
+     
+    
     }catch(error){
         console.log(error);
         res.status(500).json({error: 'Internal server error'});

@@ -21,9 +21,6 @@ const postSchema = new mongoose.Schema({
     tagsOrCategories: {
         type: [String],
     },
-    comments: {
-        type: [String], 
-    },
     likesOrReactions: {
         type: [String],
     },
@@ -54,6 +51,10 @@ const postSchema = new mongoose.Schema({
     commentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment'
+    },
+    categoryId: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'Category'
     }
 });
 

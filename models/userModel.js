@@ -27,6 +27,10 @@ var userSchema = new mongoose.Schema({
         type: String,
         default: 'notverified', // Set the default value here
       },
+      favouriteId: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'Favouritepost'
+    }
 });
 
 // Yo code chai password lai encrypt garna lai 

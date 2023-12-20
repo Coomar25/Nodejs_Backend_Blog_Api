@@ -7,8 +7,7 @@ export const createPostValidateSchema = joi.object({
   author: joi.string().required(),
   category: joi.string().required(),
   imagesOrMedia: joi.string().required(),
-  status: joi.string().valid('published', 'draft', 'archived').required(),
-
+  // status: joi.string().valid('published', 'draft', 'archived').required(),
 });
 
 export const updatePostValidateSchema = joi.object({

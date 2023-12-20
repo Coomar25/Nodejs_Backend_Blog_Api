@@ -45,9 +45,12 @@ export const createBlogPost = async (req, res) => {
 
       const createblogpost = await Post.create(blogPostInfo);
       console.log(createblogpost);
-      return res.status(201).send(createblogpost);
+      return res.status(201).json({
+        success: "You Blog Post Has Been Requested! Thank You Soo Much",
+        response: createblogpost
+      });
     } else {
-      return res.status(400).json({ error: error.details[0].message });
+      return res.status(401).json({ error: error.details[0].message });
     }
   } catch (error) {
     console.log(error);

@@ -19,7 +19,7 @@ const postSchema = new mongoose.Schema({
         required: true,
     },
     tagsOrCategories: {
-        type: [String],
+        type: String,
     },
     likesOrReactions: {
         type: [String],
@@ -41,8 +41,8 @@ const postSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['published', 'draft', 'archived'],
-        default: 'draft', 
+        // enum: ['published', 'draft', 'archived'],
+        default: 'notapproved', 
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,

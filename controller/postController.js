@@ -1,4 +1,5 @@
 import Post from "../models/postModel.js";
+import Favouritepost from "../models/favouritemodel.js";
 import {createPostValidateSchema, updatePostValidateSchema} from "../utils/createpostValidateSchema.js";
 
 const generateSlug = (title) => {
@@ -200,6 +201,54 @@ export const updateBlogPost = async (req, res) => {
         console.error(error);
     }
   }
+
+
+  export const addFavouritePost = async (req, res) => {
+    const {postId, userId} = req.params;
+    try{
+        if(!userId){
+          return res.status(400).send({warning: "You need to login before adding into favourite"})
+        }
+
+        const removePostIfExisting = await Favouritepost.findOneAndUpdate(
+          {user: userId, post: postId},
+          {$pull: {post: postId}},
+          {new:true}
+        );
+        console.log(removePostIfExisting);
+        if(removePostIfExisting){
+          return res.status(200).json({
+            message: "Post has been unfavourite",
+            favouritepost: removePostIfExisting
+          });
+        }
+        const existinguser = await Favouritepost.findOneAndUpdate(
+          {user: userId},
+          {$push: {post: postId}},
+          {new:true}
+        );
+
+        if(!existinguser){
+          const addfavouriteinfo =  new Favouritepost({
+            user: userId,
+            post: postId
+          });
+          const createfavourite = await Favouritepost.create(addfavouriteinfo);
+          console.log(createfavourite._id.toString());
+          return res.status(200).send(createfavourite);
+        }
+        return res.status(200).json({
+          message: "Post has been added to favourite",
+          favouritepost: existinguser
+        });
+    
+
+    }catch(error){
+      console.error(error);
+    }
+  } 
+
+
 
 
 

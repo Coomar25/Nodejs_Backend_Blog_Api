@@ -1,5 +1,5 @@
 import express from "express";
-import { createBlogPost, getPostWithUser, updateBlogPost, deleteBlogPost, toggleFeatureStatus, getFeaturedPosts, toggleUserLikes } from "../controller/postController.js";
+import { createBlogPost, getPostWithUser, updateBlogPost, deleteBlogPost, toggleFeatureStatus, getFeaturedPosts, toggleUserLikes, addFavouritePost } from "../controller/postController.js";
 import {addCommentToPost} from "../controller/commentController.js"
 import { createCategory, deleteCategory, getAllCategories, updateCategory } from "../controller/categoryController.js";
 
@@ -22,6 +22,10 @@ router.post('/addcategory', createCategory);
 router.put('/updatecategory/:categoryId', updateCategory);
 router.delete('/deletecategory/:categoryId', deleteCategory);
 router.get('/getallcategories', getAllCategories);
+
+// favourite post 
+
+router.post('/addfavourite/:postId/:userId', addFavouritePost);
 
 
 

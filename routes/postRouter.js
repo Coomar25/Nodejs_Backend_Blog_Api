@@ -10,6 +10,8 @@ import {
   addFavouritePost,
   getPostBySlug,
   fetchLatestPost,
+  getPostByViews,
+  getAllPostByCategory,
 } from "../controller/postController.js";
 import { addCommentToPost } from "../controller/commentController.js";
 import {
@@ -30,6 +32,8 @@ router.get("/getfeaturespost", getFeaturedPosts);
 router.put("/likeorreaction/:postId/:userId", toggleUserLikes);
 router.post("/addcomment/:postId/:userId", addCommentToPost);
 router.get("/latestpost", fetchLatestPost);
+router.get("/mostpupular", getPostByViews);
+router.get("/:catslug", getAllPostByCategory);
 router.get("/:tagsOrCategories/:slug", getPostBySlug);
 
 // category

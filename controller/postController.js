@@ -84,10 +84,18 @@ export const getPostBySlug = async (req, res) => {
   const slug = req.params.slug;
   console.log(slug, tagsOrCategories);
   try {
-    const getpostbyslug = await Post.findOne({
-      slug: slug,
-      tagsOrCategories: tagsOrCategories,
-    })
+    const getpostbyslug = await Post.findOneAndUpdate(
+      {
+        slug: slug,
+        tagsOrCategories: tagsOrCategories,
+      },
+      {
+        $inc: { views: 1 },
+      },
+      {
+        new: true,
+      }
+    )
       .populate("user", "_id username email image")
       .populate("commentId");
     if (!getpostbyslug) {
@@ -98,6 +106,46 @@ export const getPostBySlug = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: "Internal server error" });
+  }
+};
+
+export const getAllPostByCategory = async (req, res) => {
+  const catslug = req.params.catslug;
+  console.log(catslug);
+  try {
+    const getpostbyslug = await Post.find({
+      tagsOrCategories: catslug,
+    })
+      .sort({ publicationDate: -1 })
+      .populate("user", "_id username email image")
+      .populate("commentId");
+    if (!getpostbyslug) {
+      return res.status(404).send({ message: "Post not found" });
+    }
+    console.log(getpostbyslug);
+    res.status(200).send({ post: getpostbyslug });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Internal server error" });
+  }
+};
+
+export const getPostByViews = async (req, res) => {
+  try {
+    const postByViews = await Post.find()
+      .sort({ views: -1 }) // descending order ma sort garne popularity ko based on fetch garnu xa vane
+      .limit(10);
+
+    if (!postByViews || postByViews.length === 0) {
+      return res.status(404).send({ message: "No Posts found" });
+    }
+
+    return res.status(200).send({
+      posts: postByViews,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Internal Server Error" });
   }
 };
 

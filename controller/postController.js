@@ -117,6 +117,29 @@ export const getFeaturedPosts = async (req, res) => {
   }
 };
 
+export const fetchLatestPost = async (req, res) => {
+  try {
+    const latestpost = await Post.find({
+      isFeatures: { $ne: "featured" },
+    })
+      .sort({ publicationDate: -1 })
+      .populate("user", "_id username email image")
+      .populate("commentId");
+
+    if (!latestpost || latestpost.length === 0) {
+      return res.status(404).send({
+        message: "No Latest Post has been Found",
+      });
+    }
+    console.log(latestpost);
+    return res.status(200).send({
+      latestpost: latestpost,
+    });
+  } catch (error) {
+    console.log("Error while fetching the latest posts", error);
+  }
+};
+
 export const updateBlogPost = async (req, res) => {
   try {
     const postId = req.params.postid;

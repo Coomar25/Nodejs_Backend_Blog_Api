@@ -1,0 +1,17 @@
+<main class="app-wrapper">
+    <%- include('layout/navbar') %>
+    <div class="flex flex-col justify-between min-h-screen">
+        <div>
+          <%- include('layout/header') %>
+          <!-- Dashboard Conentet here ookey -->
+          <div class="content-wrapper transition-all duration-150 xl:ltr:ml-[248px] xl:rtl:mr-[248px]" id="content_wrapper">
+            <div class="page-content">
+              <div id="content_layout">
+                    <%- include('__particles/dashboard') %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>

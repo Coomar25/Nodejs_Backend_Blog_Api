@@ -1,42 +1,43 @@
 <!DOCTYPE html>
 <html lang="zxx" dir="ltr" class="light">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <title>Dashcode - HTML Template</title>
-  <link rel="icon" type="image/png" href="../../public/assets/images/logo/favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com/">
-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
-  <!-- BEGIN: Theme CSS-->
-  <link rel="stylesheet" href="../../public/assets/css/rt-plugins.css">
-  <link rel="stylesheet" href="../../public/assets/css/app.css">
-  <!-- End : Theme CSS -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <title>Dashcode - HTML Template</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="../../public/assets/images/logo/favicon.svg"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com/" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com/"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+      crossorigin=""
+    />
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" href="../../public/assets/css/rt-plugins.css" />
+    <link rel="stylesheet" href="../../public/assets/css/app.css" />
+    <!-- End : Theme CSS -->
 
-  <script src="../../public/assets/js/store.js" sync></script>
-</head>
+    <script src="../../public/assets/js/store.js" sync></script>
+  </head>
 
-<body class=" font-inter dashcode-app" id="body_class">
-  <main class="app-wrapper">
-    <%- include('layout/navbar') %>
-    <div class="flex flex-col justify-between min-h-screen">
-        <div>
-          <%- include('layout/header') %>
-          <!-- Dashboard Conentet here ookey -->
-          <div class="content-wrapper transition-all duration-150 xl:ltr:ml-[248px] xl:rtl:mr-[248px]" id="content_wrapper">
-            <div class="page-content">
-              <div id="content_layout">
-                    <%- include('__particles/dashboard') %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </main>
-  <script src="../../public/assets/js/jquery-3.6.0.min.js"></script>
-  <script src="../../public/assets/js/rt-plugins.js"></script>
-  <script src="../../public/assets/js/app.js"></script>
-</body>
-
+  <body class="font-inter dashcode-app" id="body_class">
+    <%- include('components/signin') %>
+    <script src="../../public/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="../../public/assets/js/rt-plugins.js"></script>
+    <script src="../../public/assets/js/app.js"></script>
+  </body>
 </html>

@@ -7,6 +7,7 @@ import { postRouter } from "./routes/postRouter.js";
 import createConnection from "./config/dbConnect.js";
 import { connectToMongoDb } from "./config/mongodbConnect.js";
 import cors from "cors";
+import { adminRouter } from "./routes/adminRouter.js";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -55,6 +56,7 @@ db.promise()
 app.use("/", userRouter);
 app.use("/auth", authRouter);
 app.use("/post", postRouter);
+app.use("/admin", adminRouter);
 
 // Ejs
 app.set("view engine", "ejs");

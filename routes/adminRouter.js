@@ -5,7 +5,12 @@ const router = express.Router();
 
 router.post("/registerAdmin", createAdmin);
 router.post("/loginAdmin", adminlogin);
-router.get("/testcase", adminAuthentication, (req, res) => {
+
+router.get("/user", (req, res) => {
+  res.render("pages/user");
+});
+
+router.get("/dashboard", (req, res) => {
   res.render("pages/adminDashboard");
 });
 

@@ -1,4 +1,5 @@
 import Admin from "../models/adminModel.js";
+import { createJwtToken } from "../config/generateJwtToken.js";
 
 export const createAdmin = async (req, res) => {
   try {
@@ -44,16 +45,20 @@ export const createAdmin = async (req, res) => {
 export const adminlogin = async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password);
-  const findUser = await User.findOne({ email });
-  if (!findUser || !(await findUser.isPasswordMatched(password))) {
-    return res.status(401).json({ message: "Invalid email or password" });
+  try {
+    const findUser = await Admin.findOne({ email });
+    if (!findUser || !(await findUser.isPasswordMatched(password))) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+    res.render("pages/adminDashboard", {
+      user: {
+        _id: findUser._id,
+        username: findUser.username,
+        email: findUser.email,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
-  res.json({
-    token: createJwtToken(findUser?._id),
-    user: {
-      _id: findUser?._id,
-      username: findUser?.username,
-      email: findUser?.email,
-    },
-  });
 };

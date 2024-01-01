@@ -12,6 +12,10 @@ var adminSchema = new mongoose.Schema({
     required: true,
     minlength: 8,
   },
+  admintype: {
+    type: String,
+    default: "admin",
+  },
 });
 
 // Yo code chai password lai encrypt garna lai

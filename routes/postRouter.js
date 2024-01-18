@@ -20,10 +20,12 @@ import {
   getAllCategories,
   updateCategory,
 } from "../controller/categoryController.js";
+import multer from "multer";
+import { upload } from "../middleware/uploadMiddleware.js";
 
 const router = express.Router();
 
-router.post("/addpost", createBlogPost);
+router.post("/addpost", upload.single("imagesOrMedia"), createBlogPost);
 router.get("/getpostwithuser/:postid", getPostWithUser);
 router.put("/updatepost/:postid", updateBlogPost);
 router.delete("/deletepost/:postid", deleteBlogPost);

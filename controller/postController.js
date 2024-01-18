@@ -24,13 +24,11 @@ export const createBlogPost = async (req, res) => {
       const existingBlogPost = await Post.findOne({ slug: slug });
       if (existingBlogPost) {
         return res.status(409).json({
-          warning: "Post with that name already exist",
-          success: false,
+          error: "Blog Post with the same title already exists.",
         });
       }
-      // hamlai nepali date chaiya ho ni tw
 
-      const event = new Date();
+      let event = new Date();
       const options = { timeZone: "Asia/Kathmandu" };
       const nepalTime = event.toLocaleString("en-US", options);
 
@@ -48,8 +46,9 @@ export const createBlogPost = async (req, res) => {
 
       const createblogpost = await Post.create(blogPostInfo);
       console.log(createblogpost);
+
       return res.status(201).json({
-        success: "You Blog Post Has Been Requested! Thank You Soo Much",
+        success: "Your Blog Post has been created successfully!",
         response: createblogpost,
       });
     } else {
